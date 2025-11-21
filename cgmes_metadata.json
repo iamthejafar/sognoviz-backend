@@ -1,0 +1,622 @@
+{
+  "layoutParameters" : {
+    "textNodesForceLayout" : false,
+    "textNodeFixedShift" : {
+      "x" : 100.0,
+      "y" : -40.0
+    },
+    "maxSteps" : 1000,
+    "textNodeEdgeConnectionYShift" : 25.0,
+    "injectionsAdded" : false
+  },
+  "svgParameters" : {
+    "diagramPadding" : {
+      "left" : 200.0,
+      "top" : 200.0,
+      "right" : 200.0,
+      "bottom" : 200.0
+    },
+    "insertNameDesc" : false,
+    "svgWidthAndHeightAdded" : false,
+    "cssLocation" : "INSERTED_IN_SVG",
+    "sizeConstraint" : "FIXED_SCALE",
+    "fixedWidth" : -1,
+    "fixedHeight" : -1,
+    "fixedScale" : 0.2,
+    "arrowShift" : 30.0,
+    "arrowLabelShift" : 19.0,
+    "converterStationWidth" : 70.0,
+    "voltageLevelCircleRadius" : 30.0,
+    "fictitiousVoltageLevelCircleRadius" : 15.0,
+    "transformerCircleRadius" : 20.0,
+    "nodeHollowWidth" : 15.0,
+    "edgesForkLength" : 80.0,
+    "edgesForkAperture" : 60.0,
+    "edgeStartShift" : 0.0,
+    "unknownBusNodeExtraRadius" : 10.0,
+    "loopDistance" : 120.0,
+    "loopEdgesAperture" : 60.0,
+    "loopControlDistance" : 40.0,
+    "edgeInfoAlongEdge" : true,
+    "edgeNameDisplayed" : false,
+    "interAnnulusSpace" : 5.0,
+    "svgPrefix" : "",
+    "idDisplayed" : false,
+    "substationDescriptionDisplayed" : false,
+    "arrowHeight" : 10.0,
+    "busLegend" : true,
+    "voltageLevelDetails" : false,
+    "languageTag" : "en",
+    "voltageValuePrecision" : 1,
+    "powerValuePrecision" : 0,
+    "angleValuePrecision" : 1,
+    "currentValuePrecision" : 0,
+    "edgeInfoDisplayed" : "ACTIVE_POWER",
+    "pstArrowHeadSize" : 8.0,
+    "undefinedValueSymbol" : "",
+    "highlightGraph" : false,
+    "injectionAperture" : 10.0,
+    "injectionEdgeLength" : 145.0,
+    "injectionCircleRadius" : 25.0
+  },
+  "busNodes" : [ {
+    "svgId" : "1",
+    "equipmentId" : "1393bcfa-b051-7481-575c-5610bafdf038_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "0"
+  }, {
+    "svgId" : "3",
+    "equipmentId" : "1a3692fc-b7ec-7062-fca1-fe9a522103b3_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "2"
+  }, {
+    "svgId" : "5",
+    "equipmentId" : "288d7ce6-51d7-63b3-aaf3-0942530b7611_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "4"
+  }, {
+    "svgId" : "7",
+    "equipmentId" : "3a166c05-f5f9-ca3d-8eea-48c3aeb684e2_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "6"
+  }, {
+    "svgId" : "9",
+    "equipmentId" : "496f9405-5bbe-d77a-88ad-2ca2d7d0ef2a_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "8"
+  }, {
+    "svgId" : "11",
+    "equipmentId" : "4d21b18f-4a2f-f647-7d24-252948d3fb00_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "10"
+  }, {
+    "svgId" : "13",
+    "equipmentId" : "8038442c-e628-78c3-83eb-3a89b7c911a6_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "12"
+  }, {
+    "svgId" : "15",
+    "equipmentId" : "9a39eb39-7f21-5944-54b4-7d1279fc9f27_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "14"
+  }, {
+    "svgId" : "17",
+    "equipmentId" : "a3b6a91a-d2af-f15f-5a39-24da3d0c4582_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "16"
+  }, {
+    "svgId" : "19",
+    "equipmentId" : "a6d97d65-9dcc-adf4-52f9-c0733da10567_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "18"
+  }, {
+    "svgId" : "21",
+    "equipmentId" : "b15e94bb-bf43-a8da-03f6-c0a7709b3d52_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "20"
+  }, {
+    "svgId" : "23",
+    "equipmentId" : "c049291b-107c-a613-1a71-154641821576_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "22"
+  }, {
+    "svgId" : "25",
+    "equipmentId" : "c5ca2fa4-f490-13e3-ca6f-4fa6765ae973_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "24"
+  }, {
+    "svgId" : "27",
+    "equipmentId" : "cca11cea-cd18-f500-b423-5689e25c5208_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "26"
+  }, {
+    "svgId" : "29",
+    "equipmentId" : "cff4ddfc-8f96-c280-3eb9-88c141ccad5f_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "28"
+  }, {
+    "svgId" : "31",
+    "equipmentId" : "d3d1e57f-e960-600f-9a1b-477a4263cbe6_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "30"
+  }, {
+    "svgId" : "33",
+    "equipmentId" : "dc0ff846-f422-01e1-2f4b-2317e4c5312c_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "32"
+  }, {
+    "svgId" : "35",
+    "equipmentId" : "def0f22b-e4b4-a77e-a106-c057107b4192_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "34"
+  }, {
+    "svgId" : "37",
+    "equipmentId" : "f28255f1-56d9-6400-24f8-4795eee95cd2_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "36"
+  }, {
+    "svgId" : "39",
+    "equipmentId" : "f2fd5621-78dc-ca84-5538-9527ae25f8af_0",
+    "nbNeighbours" : 0,
+    "index" : 0,
+    "vlNode" : "38"
+  } ],
+  "nodes" : [ {
+    "svgId" : "0",
+    "equipmentId" : "1393bcfa-b051-7481-575c-5610bafdf038",
+    "x" : 566.95,
+    "y" : -816.74
+  }, {
+    "svgId" : "2",
+    "equipmentId" : "1a3692fc-b7ec-7062-fca1-fe9a522103b3",
+    "x" : -1213.94,
+    "y" : 302.58
+  }, {
+    "svgId" : "4",
+    "equipmentId" : "288d7ce6-51d7-63b3-aaf3-0942530b7611",
+    "x" : 493.02,
+    "y" : 215.23
+  }, {
+    "svgId" : "6",
+    "equipmentId" : "3a166c05-f5f9-ca3d-8eea-48c3aeb684e2",
+    "x" : 778.85,
+    "y" : -1190.31
+  }, {
+    "svgId" : "8",
+    "equipmentId" : "496f9405-5bbe-d77a-88ad-2ca2d7d0ef2a",
+    "x" : -323.84,
+    "y" : 726.06
+  }, {
+    "svgId" : "10",
+    "equipmentId" : "4d21b18f-4a2f-f647-7d24-252948d3fb00",
+    "x" : 1018.26,
+    "y" : 176.27
+  }, {
+    "svgId" : "12",
+    "equipmentId" : "8038442c-e628-78c3-83eb-3a89b7c911a6",
+    "x" : 798.6,
+    "y" : -231.44
+  }, {
+    "svgId" : "14",
+    "equipmentId" : "9a39eb39-7f21-5944-54b4-7d1279fc9f27",
+    "x" : -923.54,
+    "y" : 1.41
+  }, {
+    "svgId" : "16",
+    "equipmentId" : "a3b6a91a-d2af-f15f-5a39-24da3d0c4582",
+    "x" : -606.62,
+    "y" : 384.9
+  }, {
+    "svgId" : "18",
+    "equipmentId" : "a6d97d65-9dcc-adf4-52f9-c0733da10567",
+    "x" : -477.6,
+    "y" : -708.23
+  }, {
+    "svgId" : "20",
+    "equipmentId" : "b15e94bb-bf43-a8da-03f6-c0a7709b3d52",
+    "x" : -1257.18,
+    "y" : -338.12
+  }, {
+    "svgId" : "22",
+    "equipmentId" : "c049291b-107c-a613-1a71-154641821576",
+    "x" : -404.55,
+    "y" : 1853.61
+  }, {
+    "svgId" : "24",
+    "equipmentId" : "c5ca2fa4-f490-13e3-ca6f-4fa6765ae973",
+    "x" : 1268.07,
+    "y" : -160.92
+  }, {
+    "svgId" : "26",
+    "equipmentId" : "cca11cea-cd18-f500-b423-5689e25c5208",
+    "x" : -656.72,
+    "y" : -365.76
+  }, {
+    "svgId" : "28",
+    "equipmentId" : "cff4ddfc-8f96-c280-3eb9-88c141ccad5f",
+    "x" : 46.55,
+    "y" : 916.74
+  }, {
+    "svgId" : "30",
+    "equipmentId" : "d3d1e57f-e960-600f-9a1b-477a4263cbe6",
+    "x" : 356.43,
+    "y" : 653.44
+  }, {
+    "svgId" : "32",
+    "equipmentId" : "dc0ff846-f422-01e1-2f4b-2317e4c5312c",
+    "x" : 995.22,
+    "y" : -567.81
+  }, {
+    "svgId" : "34",
+    "equipmentId" : "def0f22b-e4b4-a77e-a106-c057107b4192",
+    "x" : 1394.95,
+    "y" : 197.11
+  }, {
+    "svgId" : "36",
+    "equipmentId" : "f28255f1-56d9-6400-24f8-4795eee95cd2",
+    "x" : -1459.85,
+    "y" : -675.73
+  }, {
+    "svgId" : "38",
+    "equipmentId" : "f2fd5621-78dc-ca84-5538-9527ae25f8af",
+    "x" : 255.22,
+    "y" : -1115.75
+  } ],
+  "edges" : [ {
+    "svgId" : "40",
+    "equipmentId" : "ba8828dc-0f40-4bdc-91e4-b9fd0cedcde0",
+    "node1" : "0",
+    "node2" : "38",
+    "busNode1" : "1",
+    "busNode2" : "39",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "41",
+    "equipmentId" : "e341024f-26f3-4a96-a980-c1b53d45d590",
+    "node1" : "0",
+    "node2" : "6",
+    "busNode1" : "1",
+    "busNode2" : "7",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "42",
+    "equipmentId" : "fb4870f9-74ad-4aac-8eda-bfd7bb4dd38a",
+    "node1" : "12",
+    "node2" : "0",
+    "busNode1" : "13",
+    "busNode2" : "1",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "43",
+    "equipmentId" : "0fd00253-1a18-4e6e-a9a8-94c84bc0b0a9",
+    "node1" : "0",
+    "node2" : "38",
+    "busNode1" : "1",
+    "busNode2" : "39",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "44",
+    "equipmentId" : "03c48e78-838d-4354-be0d-c1c05241f14d",
+    "node1" : "14",
+    "node2" : "2",
+    "busNode1" : "15",
+    "busNode2" : "3",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "45",
+    "equipmentId" : "b61a6836-74ef-41e2-9f96-4a06bc98780e",
+    "node1" : "4",
+    "node2" : "12",
+    "busNode1" : "5",
+    "busNode2" : "13",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "46",
+    "equipmentId" : "2b119da0-6ce9-46eb-8acf-70c3e4f57142",
+    "node1" : "30",
+    "node2" : "4",
+    "busNode1" : "31",
+    "busNode2" : "5",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "47",
+    "equipmentId" : "fda45af0-3f6a-4b45-acf3-77d3f721dd80",
+    "node1" : "8",
+    "node2" : "28",
+    "busNode1" : "9",
+    "busNode2" : "29",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "48",
+    "equipmentId" : "18503ac4-8603-4cbc-a5a7-1dd7af8ba951",
+    "node1" : "16",
+    "node2" : "8",
+    "busNode1" : "17",
+    "busNode2" : "9",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "49",
+    "equipmentId" : "9c8361ac-0838-473f-8f0d-f33945db5250",
+    "node1" : "12",
+    "node2" : "10",
+    "busNode1" : "13",
+    "busNode2" : "11",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "50",
+    "equipmentId" : "a7b39e86-6888-4830-aeb3-b3098ce3cf5d",
+    "node1" : "34",
+    "node2" : "10",
+    "busNode1" : "35",
+    "busNode2" : "11",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "51",
+    "equipmentId" : "1cfa85be-09a0-4450-88e6-c3570cce69ad",
+    "node1" : "12",
+    "node2" : "32",
+    "busNode1" : "13",
+    "busNode2" : "33",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "52",
+    "equipmentId" : "b53021cb-a73f-4950-b461-f7339365edab",
+    "node1" : "24",
+    "node2" : "12",
+    "busNode1" : "25",
+    "busNode2" : "13",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "53",
+    "equipmentId" : "89ca7991-5d06-4c0f-b4fd-ab5f06ab35d2",
+    "node1" : "14",
+    "node2" : "26",
+    "busNode1" : "15",
+    "busNode2" : "27",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "54",
+    "equipmentId" : "ddf05784-9f7c-4a58-94a3-e39685c31610",
+    "node1" : "20",
+    "node2" : "14",
+    "busNode1" : "21",
+    "busNode2" : "15",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "55",
+    "equipmentId" : "02989a5e-000a-4091-91bd-dfd806544daf",
+    "node1" : "14",
+    "node2" : "16",
+    "busNode1" : "15",
+    "busNode2" : "17",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "56",
+    "equipmentId" : "93ffeb71-df3d-49f5-ab77-6f65c5574c27",
+    "node1" : "26",
+    "node2" : "18",
+    "busNode1" : "27",
+    "busNode2" : "19",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "57",
+    "equipmentId" : "2519517b-c5f6-445f-a014-6b86695da12a",
+    "node1" : "36",
+    "node2" : "20",
+    "busNode1" : "37",
+    "busNode2" : "21",
+    "type" : "TwoWtEdge"
+  }, {
+    "svgId" : "58",
+    "equipmentId" : "c16e590e-9e11-44ae-aef7-bd1126fd8a34",
+    "node1" : "36",
+    "node2" : "20",
+    "busNode1" : "37",
+    "busNode2" : "21",
+    "type" : "TwoWtEdge"
+  }, {
+    "svgId" : "59",
+    "equipmentId" : "834700f1-9a72-4e24-9992-53de214a9b25",
+    "node1" : "36",
+    "node2" : "20",
+    "busNode1" : "37",
+    "busNode2" : "21",
+    "type" : "TwoWtEdge"
+  }, {
+    "svgId" : "60",
+    "equipmentId" : "93a9466c-ce5e-4414-8216-181708b5da91",
+    "node1" : "24",
+    "node2" : "34",
+    "busNode1" : "25",
+    "busNode2" : "35",
+    "type" : "LineEdge"
+  }, {
+    "svgId" : "61",
+    "equipmentId" : "f467f074-dbb4-425d-bb50-a759fd2d65db",
+    "node1" : "28",
+    "node2" : "30",
+    "busNode1" : "29",
+    "busNode2" : "31",
+    "type" : "LineEdge"
+  } ],
+  "textNodes" : [ {
+    "svgId" : "0-textnode",
+    "equipmentId" : "1393bcfa-b051-7481-575c-5610bafdf038",
+    "vlNode" : "0",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "2-textnode",
+    "equipmentId" : "1a3692fc-b7ec-7062-fca1-fe9a522103b3",
+    "vlNode" : "2",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "4-textnode",
+    "equipmentId" : "288d7ce6-51d7-63b3-aaf3-0942530b7611",
+    "vlNode" : "4",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "6-textnode",
+    "equipmentId" : "3a166c05-f5f9-ca3d-8eea-48c3aeb684e2",
+    "vlNode" : "6",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "8-textnode",
+    "equipmentId" : "496f9405-5bbe-d77a-88ad-2ca2d7d0ef2a",
+    "vlNode" : "8",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "10-textnode",
+    "equipmentId" : "4d21b18f-4a2f-f647-7d24-252948d3fb00",
+    "vlNode" : "10",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "12-textnode",
+    "equipmentId" : "8038442c-e628-78c3-83eb-3a89b7c911a6",
+    "vlNode" : "12",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "14-textnode",
+    "equipmentId" : "9a39eb39-7f21-5944-54b4-7d1279fc9f27",
+    "vlNode" : "14",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "16-textnode",
+    "equipmentId" : "a3b6a91a-d2af-f15f-5a39-24da3d0c4582",
+    "vlNode" : "16",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "18-textnode",
+    "equipmentId" : "a6d97d65-9dcc-adf4-52f9-c0733da10567",
+    "vlNode" : "18",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "20-textnode",
+    "equipmentId" : "b15e94bb-bf43-a8da-03f6-c0a7709b3d52",
+    "vlNode" : "20",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "22-textnode",
+    "equipmentId" : "c049291b-107c-a613-1a71-154641821576",
+    "vlNode" : "22",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "24-textnode",
+    "equipmentId" : "c5ca2fa4-f490-13e3-ca6f-4fa6765ae973",
+    "vlNode" : "24",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "26-textnode",
+    "equipmentId" : "cca11cea-cd18-f500-b423-5689e25c5208",
+    "vlNode" : "26",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "28-textnode",
+    "equipmentId" : "cff4ddfc-8f96-c280-3eb9-88c141ccad5f",
+    "vlNode" : "28",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "30-textnode",
+    "equipmentId" : "d3d1e57f-e960-600f-9a1b-477a4263cbe6",
+    "vlNode" : "30",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "32-textnode",
+    "equipmentId" : "dc0ff846-f422-01e1-2f4b-2317e4c5312c",
+    "vlNode" : "32",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "34-textnode",
+    "equipmentId" : "def0f22b-e4b4-a77e-a106-c057107b4192",
+    "vlNode" : "34",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "36-textnode",
+    "equipmentId" : "f28255f1-56d9-6400-24f8-4795eee95cd2",
+    "vlNode" : "36",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  }, {
+    "svgId" : "38-textnode",
+    "equipmentId" : "f2fd5621-78dc-ca84-5538-9527ae25f8af",
+    "vlNode" : "38",
+    "shiftX" : 100.0,
+    "shiftY" : -40.0,
+    "connectionShiftX" : 100.0,
+    "connectionShiftY" : -15.0
+  } ]
+}
