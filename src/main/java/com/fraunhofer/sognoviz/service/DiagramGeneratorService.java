@@ -464,15 +464,10 @@ public class DiagramGeneratorService {
                                      ModificationAction action) throws IOException {
         ensureDirectoryExists(STORAGE_DIR);
 
-        String metadataJson = model.getMetadata();
-
-        // Remove surrounding quotes and unescape the JSON string
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // First, parse it as a string to remove the outer serialization layer
-
-        // Now parse the actual JSON
-        DiagramMetadata metadata = objectMapper.readValue(metadataJson, DiagramMetadata.class);
+        // Convert metadata Map -> DiagramMetadata
+        DiagramMetadata metadata = objectMapper.convertValue(model.getMetadata(), DiagramMetadata.class);
 
         NadParameters nadParameters = new NadParameters()
                 .setLayoutParameters(metadata.getLayoutParameters())
@@ -492,6 +487,7 @@ public class DiagramGeneratorService {
 
         return outputDir;
     }
+
 
     /**
      * Retrieves a voltage level or throws an exception if not found

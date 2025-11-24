@@ -31,6 +31,8 @@ public class DiagramFileHelper {
     private static final String JSON_EXTENSION = ".json";
     private static final String ZIP_EXTENSION = ".zip";
 
+    private final  DiagramMetadataConverter diagramMetadataConverter = new DiagramMetadataConverter();
+
     public static String updateFileName(String originalFileName, String newBaseName, String newExtension) {
         if (originalFileName == null || originalFileName.isEmpty()) {
             throw new IllegalArgumentException("Original filename cannot be null or empty");
@@ -79,7 +81,7 @@ public class DiagramFileHelper {
         return DiagramFiles.builder()
                 .svgFileName(svgFile.getFileName().toString()).
                 jsonFileName(jsonFile.getFileName().toString()).
-                jsonContent(Files.readString(jsonFile, StandardCharsets.UTF_8)).
+                jsonContent(diagramMetadataConverter.convertToEntityAttribute(Files.readString(jsonFile, StandardCharsets.UTF_8))).
                 svgContent(Files.readString(svgFile, StandardCharsets.UTF_8)).build();
        
     }
@@ -103,7 +105,10 @@ public class DiagramFileHelper {
         validateFileExists(jsonFile, "Modified JSON");
 
         return DiagramFiles.builder()
-                .svgFileName(svgFile.getFileName().toString()).jsonFileName(jsonFile.getFileName().toString()).jsonContent(Files.readString(jsonFile)).svgContent(Files.readString(svgFile)).build();
+                .svgFileName(svgFile.getFileName().toString())
+                .jsonFileName(jsonFile.getFileName().toString())
+                .jsonContent(diagramMetadataConverter.convertToEntityAttribute(Files.readString(jsonFile)))
+                .svgContent(Files.readString(svgFile)).build();
     }
 
 
@@ -116,23 +121,29 @@ public class DiagramFileHelper {
     public DiagramModel createDiagramModel(String id, String name, DiagramFiles files, String type) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        return DiagramModel.builder()
+
+        System.out.println("OG : " + files.getJsonContent());
+        System.out.println("Changed : " + objectMapper.writeValueAsString(files.getJsonContent()));
+        DiagramModel diagramModel =  DiagramModel.builder()
                 .id(id)
                 .name(name)
                 .svgData(files.getSvgContent())
-                .metadata(objectMapper.  writeValueAsString(files.getJsonContent()))
+                .metadata(files.getJsonContent())
                 .diagramType(type)
                 .build();
+
+        System.out.println(diagramModel.getMetadata());
+        return diagramModel;
     }
 
-    public byte[] createZipFromDiagramFiles(DiagramFiles files) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (ZipOutputStream zos = new ZipOutputStream(baos)) {
-            addZipEntry(zos, files.getSvgFileName(), files.getSvgContentBytes());
-            addZipEntry(zos, files.getJsonFileName(), files.getJsonContentBytes());
-        }
-        return baos.toByteArray();
-    }
+//    public byte[] createZipFromDiagramFiles(DiagramFiles files) throws IOException {
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        try (ZipOutputStream zos = new ZipOutputStream(baos)) {
+//            addZipEntry(zos, files.getSvgFileName(), files.getSvgContentBytes());
+//            addZipEntry(zos, files.getJsonFileName(), files.getJsonContentBytes());
+//        }
+//        return baos.toByteArray();
+//    }
 
     public void addZipEntry(ZipOutputStream zos, String fileName, byte[] content) throws IOException {
         zos.putNextEntry(new ZipEntry(fileName));

@@ -97,6 +97,10 @@ public class DiagramController {
             );
             diagram = diagramStorageService.saveDiagram(diagram);
 
+            System.out.println("From Outer MEthod");
+
+            System.out.println(diagram.getMetadata());
+
 
             log.info("Successfully generated NAD diagram for id: {}", id);
 

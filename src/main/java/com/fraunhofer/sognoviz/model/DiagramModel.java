@@ -1,5 +1,6 @@
 package com.fraunhofer.sognoviz.model;
 
+import com.powsybl.nad.svg.metadata.DiagramMetadata;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,18 +16,16 @@ public class DiagramModel {
     private String id;
     private String name;
     private String svgData;
-    private String metadata;
+    private DiagramMetadata metadata;
     private String diagramType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     // Constructor without timestamps (for creating new diagrams)
-    public DiagramModel(String name, String svgData, String metadata, String diagramType) {
+    public DiagramModel(String name, String svgData, DiagramMetadata metadata, String diagramType) {
         this.name = name;
         this.svgData = svgData;
         this.metadata = metadata;
         this.diagramType = diagramType;
     }
-
-
 }

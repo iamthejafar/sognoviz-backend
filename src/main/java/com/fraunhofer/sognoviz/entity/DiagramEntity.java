@@ -1,11 +1,14 @@
 package com.fraunhofer.sognoviz.entity;
 
+import com.fraunhofer.sognoviz.util.DiagramMetadataConverter;
+import com.powsybl.nad.svg.metadata.DiagramMetadata;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -22,12 +25,14 @@ public class DiagramEntity {
     private String name;
 
     @Lob
-    @Column(nullable = false, columnDefinition = "CLOB")
+    @Column(nullable = false)
     private String svgData;
 
     @Lob
     @Column(columnDefinition = "CLOB")
-    private String metadata;
+    @Convert(converter = DiagramMetadataConverter.class)
+    private DiagramMetadata metadata;
+
 
     @Column(nullable = false)
     private String diagramType;
@@ -41,7 +46,7 @@ public class DiagramEntity {
     @PrePersist
     protected void onCreate() {
         if (id == null) {
-            id = UUID.randomUUID().toString(); // ✅ Auto-generate UUID
+            id = UUID.randomUUID().toString();
         }
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
@@ -52,9 +57,9 @@ public class DiagramEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    // Constructor without ID (for creating new entities)
-    public DiagramEntity(String name, String svgData, String metadata, String diagramType) {
-        this.id = UUID.randomUUID().toString(); // ✅ ensure ID always present
+    // Updated constructor
+    public DiagramEntity(String name, String svgData, DiagramMetadata metadata, String diagramType) {
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.svgData = svgData;
         this.metadata = metadata;
