@@ -96,8 +96,8 @@ public class DiagramFileHelper {
     }
 
     public DiagramFiles readModifiedDiagramFiles(Path outputDir, String id) throws IOException {
-        Path svgFile = outputDir.resolve(id  + SVG_EXTENSION);
-        Path jsonFile = outputDir.resolve(id + "_metadata" + JSON_EXTENSION);
+        Path svgFile = outputDir.resolve(id + "_modified" + SVG_EXTENSION);
+        Path jsonFile = outputDir.resolve(id + "_modified_metadata" + JSON_EXTENSION);
 
         validateFileExists(svgFile, "Modified SVG");
         validateFileExists(jsonFile, "Modified JSON");

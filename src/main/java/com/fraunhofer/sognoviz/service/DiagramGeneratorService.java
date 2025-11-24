@@ -40,6 +40,7 @@ public class DiagramGeneratorService {
 
     private static final Path OUTPUT_DIR = Paths.get("./output/");
     private static final Path STORAGE_DIR = Paths.get("./cgmes/");
+    private static final String MODIFIED_DIR_SUFFIX = "_modified";
 
     // ==================== NETWORK LOADING ====================
 
@@ -470,9 +471,12 @@ public class DiagramGeneratorService {
         ObjectMapper objectMapper = new ObjectMapper();
 
         // First, parse it as a string to remove the outer serialization layer
+        String actualJson = objectMapper.readValue(metadataJson, String.class);
 
         // Now parse the actual JSON
-        DiagramMetadata metadata = objectMapper.readValue(metadataJson, DiagramMetadata.class);
+        DiagramMetadata metadata = objectMapper.readValue(actualJson, DiagramMetadata.class);
+
+
 
         NadParameters nadParameters = new NadParameters()
                 .setLayoutParameters(metadata.getLayoutParameters())
@@ -481,7 +485,7 @@ public class DiagramGeneratorService {
         Network network = loadNetwork(STORAGE_DIR.resolve(model.getName() + ".zip").toString());
 
         // Prepare output directory
-        Path outputDir = STORAGE_DIR.resolve(model.getName());
+        Path outputDir = STORAGE_DIR.resolve(model.getName() + MODIFIED_DIR_SUFFIX);
         ensureDirectoryExists(outputDir);
 
         // Execute modification
