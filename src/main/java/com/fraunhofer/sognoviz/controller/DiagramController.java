@@ -2,17 +2,14 @@ package com.fraunhofer.sognoviz.controller;
 
 import com.fraunhofer.sognoviz.model.DiagramFiles;
 import com.fraunhofer.sognoviz.model.DiagramModel;
+import com.fraunhofer.sognoviz.model.NetworkMapModel;
 import com.fraunhofer.sognoviz.service.DiagramGeneratorService;
 import com.fraunhofer.sognoviz.service.DiagramStorageService;
+import com.fraunhofer.sognoviz.service.MapDiagramStorageService;
 import com.fraunhofer.sognoviz.util.DiagramFileHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.MultipartBodyBuilder;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +27,53 @@ public class DiagramController {
 
     private final DiagramGeneratorService diagramGeneratorService;
     private final DiagramStorageService diagramStorageService;
+    private final MapDiagramStorageService mapDiagramStorageService;
     private final DiagramFileHelper fileHelper;
+
+
+    @PostMapping("/map")
+    public ResponseEntity<Object> generateMapDiagram(
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
+        String id = UUID.randomUUID().toString();
+
+        String fileName = "nad_" + id;
+
+        try {
+            Path storedFile = fileHelper.storeUploadedFile(file, fileName);
+            Path outputDir = diagramGeneratorService.generateNadForMap(storedFile.toString());
+
+            Path svgPath = outputDir.resolve("network.svg");
+            Path metadata = outputDir.resolve("network_metadata.json");
+            Path line = outputDir.resolve("line_locations.json");
+            Path linePosition = outputDir.resolve("line_positions.json");
+            Path substation = outputDir.resolve("substation_locations.json");
+            Path substationPosition = outputDir.resolve("substation_positions.json");
+
+            NetworkMapModel networkMapModel = NetworkMapModel.builder().diagramType("NAD")
+                    .name(fileName)
+                    .id(id)
+                    .metadata(Files.readString(metadata))
+                    .svg(Files.readString(svgPath))
+                    .line(Files.readString(line))
+                    .linePosition(Files.readString(linePosition))
+                    .substation(Files.readString(substation))
+                    .substationPosition(Files.readString(substationPosition))
+                    .build();
+
+
+            System.out.println(networkMapModel.toString());
+
+            NetworkMapModel diagramModel = mapDiagramStorageService.saveMapDiagram(networkMapModel);
+            return ResponseEntity.ok().body(diagramModel);
+        } catch (IOException e) {
+            if (e.getMessage().contains("No SubstationPosition")) {
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+
+    }
 
 
     @PostMapping("/nad")
@@ -55,7 +98,6 @@ public class DiagramController {
             diagram = diagramStorageService.saveDiagram(diagram);
 
 
-
             log.info("Successfully generated NAD diagram for id: {}", id);
 
             return ResponseEntity.ok()
@@ -68,11 +110,6 @@ public class DiagramController {
         }
     }
 
-    @GetMapping("/nad/{id}")
-    public ResponseEntity<?> getNadData(@PathVariable String id) {
-        log.debug("Fetching NAD diagram data for id: {}", id);
-        return getDiagramByIdAndType(id, "NAD");
-    }
 
     @PostMapping("/sld/selectionData")
     public ResponseEntity<Map<String, Object>> getSldSelectionData(
@@ -133,11 +170,6 @@ public class DiagramController {
         }
     }
 
-    @GetMapping("/sld/{id}")
-    public ResponseEntity<?> getSldData(@PathVariable String id) {
-        log.debug("Fetching SLD diagram data for id: {}", id);
-        return getDiagramByIdAndType(id, "SLD");
-    }
 
     @GetMapping
     public ResponseEntity<List<DiagramModel>> getAllDiagrams() {
@@ -147,8 +179,6 @@ public class DiagramController {
 
             return ResponseEntity.ok()
                     .body(diagrams);
-
-
         } catch (Exception e) {
             log.error("Failed to list all diagrams", e);
             return ResponseEntity.internalServerError().build();
@@ -171,22 +201,6 @@ public class DiagramController {
         }
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<?> getDiagramByName(@PathVariable String name) {
-        try {
-            log.debug("Fetching diagram with name: {}", name);
-            DiagramModel diagram = diagramStorageService.loadDiagramByName(name);
-            return ResponseEntity.ok(diagram);
-
-        } catch (RuntimeException e) {
-            log.error("Diagram not found with name: {}", name, e);
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            log.error("Failed to load diagram with name: {}", name, e);
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateDiagram(
             @PathVariable String id,
@@ -199,7 +213,7 @@ public class DiagramController {
             diagram.setId(id);
             DiagramModel updated = diagramStorageService.saveDiagram(diagram);
 
-            DiagramFileHelper.updateFileName(oldModel.getName(),updated.getName(),".zip");
+            DiagramFileHelper.updateFileName(oldModel.getName(), updated.getName(), ".zip");
             return ResponseEntity.ok(updated);
 
         } catch (RuntimeException e) {
@@ -227,37 +241,4 @@ public class DiagramController {
         }
     }
 
-    @DeleteMapping("/name/{name}")
-    public ResponseEntity<Void> deleteDiagramByName(@PathVariable String name) {
-        try {
-            log.info("Deleting diagram with name: {}", name);
-            diagramStorageService.deleteDiagramByName(name);
-            return ResponseEntity.noContent().build();
-
-        } catch (RuntimeException e) {
-            log.error("Diagram not found with name: {}", name, e);
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            log.error("Failed to delete diagram with name: {}", name, e);
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
-    private ResponseEntity<?> getDiagramByIdAndType(String id, String expectedType) {
-        try {
-            DiagramModel diagram = diagramStorageService.loadDiagram(id);
-            if (!expectedType.equals(diagram.getDiagramType())) {
-                return ResponseEntity.badRequest()
-                        .body("Diagram with id " + id + " is not a " + expectedType + " diagram");
-            }
-            return ResponseEntity.ok(diagram);
-
-        } catch (RuntimeException e) {
-            log.error("{} diagram not found with id: {}", expectedType, id, e);
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            log.error("Failed to load {} diagram with id: {}", expectedType, id, e);
-            return ResponseEntity.internalServerError().build();
-        }
-    }
 }

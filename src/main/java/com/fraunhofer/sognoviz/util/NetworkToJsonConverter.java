@@ -6,6 +6,7 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Coordinate;
 import com.powsybl.iidm.network.extensions.LinePosition;
 import com.powsybl.iidm.network.extensions.SubstationPosition;
+import com.powsybl.iidm.network.extensions.SubstationPositionAdder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class NetworkToJsonConverter {
     public static String convertSubstationPositionsToJson(Network network) {
         try {
             List<SubstationPositionData> sposDataList = extractSubstationPositions(network);
+
+            if(sposDataList.isEmpty()) throw new RuntimeException("CGMES Does not have GL Data");
             return mapper.writeValueAsString(sposDataList);
         } catch (Exception e) {
             throw new RuntimeException("Failed to convert substation positions to JSON", e);
@@ -61,10 +64,8 @@ public class NetworkToJsonConverter {
     public static String convertLinePositionsToJson(Network network) {
         try {
             List<LinePositionData> linePosDataList = extractLinePositions(network);
-            for (LinePositionData linePositionData : linePosDataList) {
-                System.out.println(linePositionData.toString());
-                System.out.println("Pronniononwe ");
-            }
+
+            if(linePosDataList.isEmpty()) throw new RuntimeException("CGMES Does not have GL Data");
             return mapper.writeValueAsString(linePosDataList);
         } catch (Exception e) {
             throw new RuntimeException("Failed to convert line positions to JSON", e);
@@ -142,6 +143,8 @@ public class NetworkToJsonConverter {
         List<SubstationPositionData> sposDataList = new ArrayList<>();
 
         network.getSubstationStream().forEach(substation -> {
+
+// Extension is now attached to substation and can be retrieved later
             SubstationPosition substationPosition =
                     substation.getExtension(SubstationPosition.class);
 

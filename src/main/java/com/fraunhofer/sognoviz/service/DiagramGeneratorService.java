@@ -5,14 +5,17 @@ import com.fraunhofer.sognoviz.DTO.SubstationDTO;
 import com.fraunhofer.sognoviz.DTO.VoltageLevelDTO;
 import com.fraunhofer.sognoviz.model.DiagramModel;
 import com.fraunhofer.sognoviz.util.NetworkToJsonConverter;
+import com.powsybl.cgmes.conversion.CgmesImport;
 import com.powsybl.commons.datasource.DataSource;
 import com.powsybl.iidm.modification.tapchanger.PhaseTapPositionModification;
 import com.powsybl.iidm.modification.topology.CreateBranchFeederBaysBuilder;
 import com.powsybl.iidm.modification.topology.CreateFeederBayBuilder;
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.SubstationPosition;
 import com.powsybl.nad.NadParameters;
 import com.powsybl.nad.NetworkAreaDiagram;
 import com.powsybl.nad.build.iidm.VoltageLevelFilter;
+import com.powsybl.nad.svg.SvgParameters;
 import com.powsybl.nad.svg.metadata.DiagramMetadata;
 import com.powsybl.sld.SingleLineDiagram;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +40,6 @@ public class DiagramGeneratorService {
 
     private static final Path OUTPUT_DIR = Paths.get("./output/");
     private static final Path STORAGE_DIR = Paths.get("./cgmes/");
-    private static final String MODIFIED_DIR_SUFFIX = "_modified";
 
     // ==================== NETWORK LOADING ====================
 
@@ -50,8 +52,32 @@ public class DiagramGeneratorService {
      */
     private Network loadNetwork(String inputPath) throws IOException {
         validateFilePath(inputPath);
-
         Path path = Path.of(inputPath);
+
+        if (!Files.exists(path)) {
+            throw new IOException("Network file does not exist: " + inputPath);
+        }
+
+        try {
+            DataSource dataSource = DataSource.fromPath(path);
+            Network network = Network.  read(dataSource);
+
+            if (network == null) {
+                throw new IOException("Failed to load network from: " + inputPath);
+            }
+            return network;
+        } catch (Exception e) {
+            log.error("Failed to load network from: {}", inputPath, e);
+            throw new IOException("Failed to load network from file: " + inputPath, e);
+        }
+    }
+
+
+    private Network loadNetworkWithGLProfile(String inputPath) throws IOException {
+        validateFilePath(inputPath);
+        Path path = Path.of(inputPath);
+
+
         if (!Files.exists(path)) {
             throw new IOException("Network file does not exist: " + inputPath);
         }
@@ -66,25 +92,42 @@ public class DiagramGeneratorService {
                 throw new IOException("Failed to load network from: " + inputPath);
             }
 
-            log.info("Successfully loaded network from: {}", inputPath);
+            long substationsWithPosition = network.getSubstationStream()
+                    .filter(s -> s.getExtension(SubstationPosition.class) != null)
+                    .count();
+
+            if (substationsWithPosition == 0) {
+                throw new IOException("No SubstationPosition extensions found. GL profile may be missing from CGMES files.");
+            }
+
             return network;
+
+        } catch (IOException e) {
+            throw e;
         } catch (Exception e) {
             log.error("Failed to load network from: {}", inputPath, e);
             throw new IOException("Failed to load network from file: " + inputPath, e);
         }
+
     }
 
     /**
      * Creates default import properties for network loading
      */
     private Properties createImportProperties() {
-        Properties params = new Properties();
-        params.put("iidm.import.cgmes.create-substation-position-extension", "true");
-        params.put("iidm.import.cgmes.create-line-position-extension", "true");
-        params.put("iidm.import.cgmes.create-cgmes-export-mapping", "true");
-        params.put("iidm.import.cgmes.store-cgmes-model-as-network-extension", "true");
-        return params;
+        Properties properties = new Properties();
+
+        // CRITICAL: Use the GL import post-processor
+        properties.put("iidm.import.cgmes.post-processors", "cgmesGLImport");
+
+        // Optional: Additional helpful settings
+        properties.put("iidm.import.cgmes.store-cgmes-model-as-network-extension", "true");
+        properties.put("iidm.import.cgmes.create-busbar-section-for-every-connectivity-node", "true");
+        properties.put("iidm.import.cgmes.create-cgmes-export-mapping", "true");
+
+        return properties;
     }
+
 
     // ==================== DIAGRAM GENERATION ====================
 
@@ -114,11 +157,13 @@ public class DiagramGeneratorService {
      * @throws IOException if generation fails
      */
     public Path generateNadForMap(String inputPath) throws IOException {
-        Network network = loadNetwork(inputPath);
+        Network network = loadNetworkWithGLProfile(inputPath);
 
-        // Create unique temp directory
+        // Ensure OUTPUT_DIR exists first
+        ensureDirectoryExists(OUTPUT_DIR);
+
+        // Create unique temp directory inside OUTPUT_DIR
         Path outputD = Files.createTempDirectory(OUTPUT_DIR, "nad_");
-        ensureDirectoryExists(outputD);
 
         // Generate SVG diagram
         Path svgFile = outputD.resolve("network.svg");
@@ -425,10 +470,9 @@ public class DiagramGeneratorService {
         ObjectMapper objectMapper = new ObjectMapper();
 
         // First, parse it as a string to remove the outer serialization layer
-        String actualJson = objectMapper.readValue(metadataJson, String.class);
 
         // Now parse the actual JSON
-        DiagramMetadata metadata = objectMapper.readValue(actualJson, DiagramMetadata.class);
+        DiagramMetadata metadata = objectMapper.readValue(metadataJson, DiagramMetadata.class);
 
         NadParameters nadParameters = new NadParameters()
                 .setLayoutParameters(metadata.getLayoutParameters())
@@ -437,7 +481,7 @@ public class DiagramGeneratorService {
         Network network = loadNetwork(STORAGE_DIR.resolve(model.getName() + ".zip").toString());
 
         // Prepare output directory
-        Path outputDir = STORAGE_DIR.resolve(model.getName() + MODIFIED_DIR_SUFFIX);
+        Path outputDir = STORAGE_DIR.resolve(model.getName());
         ensureDirectoryExists(outputDir);
 
         // Execute modification

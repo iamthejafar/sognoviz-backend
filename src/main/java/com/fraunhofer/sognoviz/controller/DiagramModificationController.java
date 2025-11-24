@@ -31,28 +31,19 @@ public class DiagramModificationController {
 
     @PostMapping("/remove-connectable")
     public ResponseEntity<DiagramModel> removeConnectable(
-            @RequestParam("file") MultipartFile file,
             @RequestParam("equipmentId") String equipmentId,
-            @RequestParam("diagramType") String diagramType,
-            @RequestParam("fileName") String fileName,
             @RequestParam("id") String id) {
 
         try {
-            log.info("Removing connectable {} from diagram {}", equipmentId, id);
-
 
             DiagramModel diagramModel = diagramStorageService.loadDiagram(id);
 
             diagramGeneratorService.removeConnectable(equipmentId, diagramModel);
 
             Path outputDir = Paths.get(DiagramFileHelper.CGMES_STORAGE_DIR);
-            DiagramFiles modifiedFiles = fileHelper.readModifiedDiagramFiles(outputDir, fileName);
+            DiagramFiles modifiedFiles = fileHelper.readModifiedDiagramFiles(outputDir, diagramModel.getName());
 
-            System.out.println(modifiedFiles.getSvgContent());
-            System.out.println(modifiedFiles.getSvgFileName());
-
-
-            DiagramModel model = fileHelper.createDiagramModel(id, fileName, modifiedFiles, diagramType);
+            DiagramModel model = fileHelper.createDiagramModel(id, diagramModel.getName(), modifiedFiles, diagramModel.getDiagramType());
 
             DiagramModel diagram = diagramStorageService.saveDiagram(
                     model

@@ -10,23 +10,18 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
-public class DiagramModel {
+@Builder
+public class NetworkMapModel {
     private String id;
     private String name;
-    private String svgData;
+    private String svg;
     private String metadata;
+    private String line;
+    private String linePosition;
+    private String substation;
+    private String substationPosition;
     private String diagramType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    // Constructor without timestamps (for creating new diagrams)
-    public DiagramModel(String name, String svgData, String metadata, String diagramType) {
-        this.name = name;
-        this.svgData = svgData;
-        this.metadata = metadata;
-        this.diagramType = diagramType;
-    }
-
 
 }
