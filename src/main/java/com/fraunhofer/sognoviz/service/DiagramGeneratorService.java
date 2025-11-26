@@ -15,8 +15,12 @@ import com.powsybl.iidm.network.extensions.SubstationPosition;
 import com.powsybl.nad.NadParameters;
 import com.powsybl.nad.NetworkAreaDiagram;
 import com.powsybl.nad.build.iidm.VoltageLevelFilter;
+import com.powsybl.nad.layout.FixedLayoutFactory;
+import com.powsybl.nad.layout.LayoutFactoryUtils;
+import com.powsybl.nad.model.TextNode;
 import com.powsybl.nad.svg.SvgParameters;
 import com.powsybl.nad.svg.metadata.DiagramMetadata;
+import com.powsybl.nad.svg.metadata.TextNodeMetadata;
 import com.powsybl.sld.SingleLineDiagram;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,10 +63,12 @@ public class DiagramGeneratorService {
         if (!Files.exists(path)) {
             throw new IOException("Network file does not exist: " + inputPath);
         }
+        Properties importParams = createImportProperties();
+
 
         try {
             DataSource dataSource = DataSource.fromPath(path);
-            Network network = Network.  read(dataSource);
+            Network network = Network.read(dataSource, importParams);
 
             if (network == null) {
                 throw new IOException("Failed to load network from: " + inputPath);
@@ -300,6 +307,47 @@ public class DiagramGeneratorService {
         });
     }
 
+    /**
+     * Executes a network modification with common setup and teardown logic
+     */
+    @FunctionalInterface
+    private interface ModificationAction {
+        void execute(Network network, NadParameters nadParams, Path outputDir) throws IOException;
+    }
+
+    private Path executeModification(DiagramModel model,
+                                     ModificationAction action) throws IOException {
+        ensureDirectoryExists(STORAGE_DIR);
+
+        String metadataJson = model.getMetadata();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String actualJson = objectMapper.readValue(metadataJson, String.class);
+
+        DiagramMetadata metadata = objectMapper.readValue(actualJson, DiagramMetadata.class);
+        InputStream metadataIS = new ByteArrayInputStream(actualJson.getBytes(StandardCharsets.UTF_8));
+
+        FixedLayoutFactory fixedLayoutFactory =
+                LayoutFactoryUtils.create(metadataIS);
+
+        NadParameters nadParameters = new NadParameters()
+                .setLayoutParameters(metadata.getLayoutParameters())
+                .setSvgParameters(metadata.getSvgParameters())
+                .setLayoutFactory(fixedLayoutFactory);
+
+        Network network = loadNetwork(STORAGE_DIR.resolve(model.getName() + ".zip").toString());
+
+        Path outputDir = STORAGE_DIR.resolve(model.getName() + MODIFIED_DIR_SUFFIX);
+        ensureDirectoryExists(outputDir);
+
+        action.execute(network, nadParameters, outputDir);
+
+        NetworkAreaDiagram.draw(network, outputDir, nadParameters, VoltageLevelFilter.NO_FILTER);
+
+        return outputDir;
+    }
+
 //    /**
 //     * Creates a new load in the network
 //     */
@@ -453,49 +501,7 @@ public class DiagramGeneratorService {
 
     // ==================== HELPER METHODS ====================
 
-    /**
-     * Executes a network modification with common setup and teardown logic
-     */
-    @FunctionalInterface
-    private interface ModificationAction {
-        void execute(Network network, NadParameters nadParams, Path outputDir) throws IOException;
-    }
 
-    private Path executeModification(DiagramModel model,
-                                     ModificationAction action) throws IOException {
-        ensureDirectoryExists(STORAGE_DIR);
-
-        String metadataJson = model.getMetadata();
-
-        // Remove surrounding quotes and unescape the JSON string
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // First, parse it as a string to remove the outer serialization layer
-        String actualJson = objectMapper.readValue(metadataJson, String.class);
-
-        // Now parse the actual JSON
-        DiagramMetadata metadata = objectMapper.readValue(actualJson, DiagramMetadata.class);
-
-
-
-        NadParameters nadParameters = new NadParameters()
-                .setLayoutParameters(metadata.getLayoutParameters())
-                .setSvgParameters(metadata.getSvgParameters());
-
-        Network network = loadNetwork(STORAGE_DIR.resolve(model.getName() + ".zip").toString());
-
-        // Prepare output directory
-        Path outputDir = STORAGE_DIR.resolve(model.getName() + MODIFIED_DIR_SUFFIX);
-        ensureDirectoryExists(outputDir);
-
-        // Execute modification
-        action.execute(network, nadParameters, outputDir);
-
-        // Redraw diagram
-        NetworkAreaDiagram.draw(network, outputDir, nadParameters, VoltageLevelFilter.NO_FILTER);
-
-        return outputDir;
-    }
 
     /**
      * Retrieves a voltage level or throws an exception if not found

@@ -27,7 +27,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<powsybl.version>2024.3.0</powsybl.version>
+		<powsybl.version>2024.4.1</powsybl.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
