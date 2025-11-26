@@ -228,9 +228,19 @@ The API will be available at `http://localhost:8080`
 
 
 ### Issues
-### Unable to export CGMES files after modifcation
+#### Unable to export CGMES files after modifcation
 - There is no way to update the network with modified metadata json that is received from fronend. Without update Network there is no way to export the CGMES files.
 - However we are still able to generate the svg and updated metadata by using draw() method where we pass layout and other parameters as nadParams.
   ```java
-        NetworkAreaDiagram.draw(network, outputDir, nadParameters, VoltageLevelFilter.NO_FILTER);
-```
+  NetworkAreaDiagram.draw(network, outputDir, nadParameters, VoltageLevelFilter.NO_FILTER);
+  ```
+---
+
+#### Connectable id issue 
+- When front end provide a connectable id it's not present in available connectables in loaded network.
+- may be the component selected in front end is not connectable yet to figure out
+
+### Future work
+#### Implement method for adding elements
+
+  
